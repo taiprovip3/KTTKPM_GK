@@ -32,7 +32,7 @@ public class RestController {
 	
 	@Autowired
 	private JwtUltility jwtUltility;
-//	
+
 	@Autowired
 	private TokenServices tokenServices;
 	
@@ -53,6 +53,7 @@ public class RestController {
 	}
 	
 	@PostMapping("/login")
+	@CachePut(value = "users", key = "'allUsers'")
 	public ResponseEntity<?> signInUser(@RequestBody UserDTO u){
 		
 		UserPrincipal userPrincipal = userServices.getUserByUsername(u.getUsername());
@@ -86,6 +87,7 @@ public class RestController {
 		return "\n\n(!) Sign out account success\n\n";
 	}
 	
+	// Cache
 	@GetMapping("/users/generate")
 	public String generatePlant() {
 		for(int i=1; i<5000; i++) {
@@ -98,7 +100,6 @@ public class RestController {
 	}
 	
 	@GetMapping("/users")
-	@CachePut(value = "Users_Hash")
 	public List<User> getUsers(){
 		return userServices.getUsers();
 	}

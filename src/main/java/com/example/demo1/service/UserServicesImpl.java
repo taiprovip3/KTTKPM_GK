@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -75,6 +76,7 @@ public class UserServicesImpl implements UserServices{
 	}
 
 	@Override
+	@Cacheable(value = "users", key = "'allUsers'")
 	public List<User> getUsers() {
 		return userRepository.findAll();
 	}
